@@ -8,7 +8,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Date;
-
+use Illuminate\Support\Facades\DB;
 class EventsController extends BaseController
 {
     /*
@@ -97,7 +97,25 @@ class EventsController extends BaseController
      */
 
     public function getEventsWithWorkshops() {
-        throw new \Exception('implement in coding task 1');
+        $events=\App\Models\Event::all();
+        $data=[];
+        foreach ($events as $event) {
+            // if($event->workshops->first()->start>date('Y-m-d')){
+                $data[]=array(
+                    'id'=>$event->id,
+                    'name'=>$event->name,
+                    'created_at'=>$event->created_at,
+                    'updated_at'=>$event->updated_at,
+                    'workshops'=>$event->workshops);
+            // }
+            
+
+        }
+     
+
+        return response()->json($data);
+                throw new \Exception('implement in coding task 1');
+
     }
 
 
@@ -176,6 +194,22 @@ class EventsController extends BaseController
      */
 
     public function getFutureEventsWithWorkshops() {
+        $events=\App\Models\Event::all();
+        $data=[];
+        foreach ($events as $event) {
+            if($event->workshops->first()->start>date('Y-m-d')){
+                $data[]=array(
+                    'id'=>$event->id,
+                    'name'=>$event->name,
+                    'created_at'=>$event->created_at,
+                    'updated_at'=>$event->updated_at,
+                    'workshops'=>$event->workshops);
+            }
+            
+
+        }
+        
+        return response()->json($data);
         throw new \Exception('implement in coding task 2');
     }
 }
